@@ -17,7 +17,25 @@ initializePassport(
     id => users.find(user => user.id === id)
 )
 
-const users = []
+let users = [];
+(async () => {
+    const hashedPassword1 = await bcrypt.hash('melanie', 10);
+    const hashedPassword2 = await bcrypt.hash('bob', 10);
+    users = [
+        {
+            id: '1',
+            name: 'Melanie',
+            email: 'melanie@test.com',
+            password: hashedPassword1
+        },
+        {
+            id: '2',
+            name: 'Bob',
+            email: 'bob@test.com',
+            password: hashedPassword2
+        }
+    ];
+})();
 
 app.set('view-engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
