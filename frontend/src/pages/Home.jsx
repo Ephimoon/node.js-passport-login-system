@@ -1,9 +1,18 @@
 import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import UserContext from '../contexts/UserContext';
 
 function Home() {
+  const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
+  
 
   useEffect(() => {
     const fetchUser = async () => {

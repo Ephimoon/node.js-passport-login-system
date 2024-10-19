@@ -74,7 +74,7 @@ app.post('/login', checkNotAuthenticated, (req, res, next) => {
             if (err) {
                 return res.status(500).json({ message: 'Login failed' });
             }
-            
+
             delete user.password;
 
             return res.status(200).json({ message: 'Login successful', user });
@@ -121,14 +121,15 @@ function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
-    res.redirect('/login');
+    res.status(401).json({ message: 'Unauthorized, please login.' });
 }
 
 function checkNotAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-        return res.redirect('/');
+        return res.status(403).json({ message: 'Already logged in.' });
     }
     next();
 }
+
 
 app.listen(3000);
