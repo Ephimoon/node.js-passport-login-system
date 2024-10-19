@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import UserContext from '../contexts/UserContext';
@@ -9,6 +9,19 @@ function Login() {
   const [error, setError] = useState('');
   const { setUser } = useContext(UserContext);  // Make sure setUser is used correctly
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/', { withCredentials: true});
+            if (response.data.user) 
+                navigate('/');
+        } catch (error) {
+            console.error('Error: ', error);
+        }
+    }
+    fetchUser();
+  }, [setUser]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

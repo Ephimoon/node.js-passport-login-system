@@ -7,11 +7,11 @@ function Home() {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');  // Redirect if no user is logged in
-    }
-  }, [user, navigate]);
+  // useEffect(() => {
+  //   if (!user) {
+  //     navigate('/login');  // Redirect if no user is logged in
+  //   }
+  // }, [user, navigate]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -19,7 +19,9 @@ function Home() {
         const response = await axios.get('http://localhost:3000/', { withCredentials: true });
         setUser(response.data.user);  // Set user in context
       } catch (error) {
-        console.error('Failed to fetch user data:', error);
+        if(error.status===401)
+          navigate('/login');
+          console.log('Not logged in: ', error);
       }
     };
     fetchUser();
