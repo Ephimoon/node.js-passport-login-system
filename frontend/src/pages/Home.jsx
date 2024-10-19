@@ -9,16 +9,15 @@ function Home() {
 
   useEffect(() => {
     if (!user) {
-      navigate('/login');
+      navigate('/login');  // Redirect if no user is logged in
     }
   }, [user, navigate]);
-  
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get('http://localhost:3000/', { withCredentials: true });
-        setUser(response.data.user);
+        setUser(response.data.user);  // Set user in context
       } catch (error) {
         console.error('Failed to fetch user data:', error);
       }
@@ -29,7 +28,8 @@ function Home() {
   const handleLogout = async () => {
     try {
       await axios.delete('http://localhost:3000/logout', { withCredentials: true });
-      setUser(null);
+      setUser(null);  // Remove user from context after logout
+      navigate('/login');
     } catch (err) {
       console.error('Error during logout', err);
     }
