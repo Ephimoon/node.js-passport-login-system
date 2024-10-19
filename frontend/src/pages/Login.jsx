@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import UserContext from '../contexts/UserContext';
 
@@ -17,7 +17,7 @@ function Login() {
             setUser(response.data.user);
             navigate('/');
         } catch (err) {
-            setError('Login failed, please try again.');
+            setError(err.response?.data?.message || 'Login failed, please try again.');
         }
     };
 
@@ -46,7 +46,7 @@ function Login() {
                 </div>
                 <button type="submit">Login</button>
             </form>
-            <p>Don't have an account? <Link to="/register">Register here</Link></p>
+            <p>Don't have an account? <a href="/register">Register here</a></p>
         </div>
     );
 }
