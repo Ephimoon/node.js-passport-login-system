@@ -74,6 +74,9 @@ app.post('/login', checkNotAuthenticated, (req, res, next) => {
             if (err) {
                 return res.status(500).json({ message: 'Login failed' });
             }
+            
+            delete user.password;
+
             return res.status(200).json({ message: 'Login successful', user });
         });
     })(req, res, next);
